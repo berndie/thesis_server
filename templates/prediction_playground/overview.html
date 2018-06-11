@@ -1,0 +1,95 @@
+{% extends "prediction_playground/base.html" %}
+{% load getattribute %}
+{% block title %}Overview{% endblock %}
+{% block navbar %} {% include "prediction_playground/navbar.html" %}{% endblock %}
+{% block extra_header %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    {% include "prediction_playground/gchart.html" %}
+
+    <style>
+    @media only screen and (min-width: 992px) {
+        .right-side{
+            padding-left: 17.5rem
+        }
+    }
+    @media only screen and (max-width: 992px) {
+        .right-side{
+            padding-left: 0
+        }
+        .navdrawer{
+            display: none !important;
+        }
+
+    }
+
+
+    .subtitle-card{
+        margin-top: 20px;
+    }
+
+    .title-card{
+        margin-bottom: 20px;
+        margin-top: 20px
+    }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+        <div class="title-card right-side">
+            <div class="row no-gutters">
+                <div class="card col-12">
+                  <div class="card-body">
+                    <h1 class="text-center"> {{ pipeline_list_active.name }}</h1>
+                  </div>
+                </div>
+            </div>
+        </div>
+    <div class="subtitle-card right-side">
+            <div class="row no-gutters">
+                <div class="card col-12">
+                  <div class="card-body">
+                    <h3 class="text-center">General Information</h3>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <div class="row no-gutters">
+                <div class="card col-6">
+                  <div class="card-body">
+                    <div id="data_count-chart"></div>
+                  </div>
+                </div>
+                <div class="card col-6">
+                  <div class="card-body">
+                    <div id="prediction_distribution-chart"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+     <div class="subtitle-card right-side">
+            <div class="row no-gutters">
+                <div class="card col-12">
+                  <div class="card-body">
+                    <h3 class="text-center">Metrics</h3>
+                  </div>
+                </div>
+            </div>
+        </div>
+    {% for row, column_width in chart_layout %}
+        <div class="right-side">
+        <div class="row no-gutters">
+            {% for column_name in row %}
+                <div class="card col-{{ column_width }}">
+                  <div class="card-body">
+                    <div id="{{ column_name }}-chart"></div>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    {% endfor %}
+{% endblock %}

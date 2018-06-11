@@ -1,0 +1,39 @@
+
+<script>
+    {% autoescape off %}
+google.charts.load('current', {'packages':{{chart_packages}}});
+{% for chart in all_charts %}
+    function {{ chart.name }}Chart() {
+        var data = google.visualization.arrayToDataTable([
+            ["{{ chart.x_label }}", '{{ chart.verbose_name }}'],
+            {% for value in chart.values %}
+                [{% for val in value %}
+                    {% if forloop.counter0 == 0 %}"{% endif %}{{val}}{% if forloop.counter0 == 0 %}"{% endif %},
+                {% endfor %}],
+            {% endfor %}
+        ]);
+
+
+        var options = {
+        hAxis: {
+          title: "{{ chart.x_label }}",
+          textPosition: 'none'
+        },
+        vAxis: {
+          title: '{{ chart.verbose_name }}'
+        },
+        title: '{{ chart.verbose_name }}'
+      };
+
+        var chart = new google.visualization.{{ chart.gclass }}(document.getElementById('{{ chart.name }}-chart'));
+
+        chart.draw(data, options);
+      }
+      google.charts.setOnLoadCallback({{ chart.name }}Chart);
+
+    $(window).resize(function(){
+      {{ chart.name }}Chart();
+    });
+{% endfor %}
+    {% endautoescape %}
+</script>

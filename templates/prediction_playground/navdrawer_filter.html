@@ -1,0 +1,19 @@
+
+
+<p class="navdrawer-subheader">Filter on {{ filter_category }}</p>
+
+{% for filter_category, filter_values in filters.items %}
+<p class="navdrawer-subheader">Filter on {{ filter_category }}</p>
+<div class="navdrawer-divider"></div>
+<ul class="navdrawer-nav">
+    {% for filter_value in filter_values%}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ filter_value.value }}">
+            {{ filter_value.text }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% empty %}
+    <p class="navdrawer-subheader">Nothing found to filter on</p>
+{% endfor %}

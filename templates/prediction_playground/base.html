@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport">
+
+    <!-- CSS -->
+    <!-- Add Material font (Roboto) and Material icon as needed -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Add Material CSS, replace Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daemonite-material@4.1.0/css/material.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daemonite-material@4.1.0/js/material.min.js"></script>
+
+
+    <title>{% block title %}
+        Thesis Simon en Bernd
+    {% endblock %}</title>
+    {% block extra_header %}{% endblock %}
+</head>
+<body>
+{% block navbar %} {% include "prediction_playground/navbar.html" %}{% endblock %}
+{% block content %}{% endblock %}
+<script>
+    $(document).ready(function () {
+        $("body").on("submit", "form", function (e) {
+            e.preventDefault();
+            $form = $(this);
+             $.ajax({
+                  url: $form.attr("action"),
+                  type: 'POST',
+                  data: new FormData($(this)[0]),
+                  async: true,
+                  cache: true,
+                  contentType: false,
+                  processData: false,
+                  success: function (data) {
+                      try{
+                          data = JSON.parse(data);
+                          if(data.hasOwnProperty("success")){
+                              $form.parents(".modal").modal('hide');
+                          }
+                      }
+                      catch (e) {
+                          $form.find(".form-content").empty().append(data);
+                      }
+                  },
+                  error: function () {
+                      alert("error in ajax form submission");
+                  }
+             });
+        })
+    })
+</script>
+</body>
+</html>

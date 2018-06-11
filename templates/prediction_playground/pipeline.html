@@ -1,0 +1,65 @@
+{% extends "prediction_playground/base.html" %}
+{% load getattribute %}
+{% load bootstrap4 %}
+
+{% block title %}Pipeline{% endblock %}
+{% block content %}
+    <div class="row" style="margin-left: 17.5rem">
+        <div class="card col-xl-12">
+          <div class="card-body">
+
+            <form>
+            {% csrf_token %}
+            <div class="stepper-horiz">
+              {% for field in form %}
+                  <div class="stepper done">
+                <div class="stepper-icon">
+                 <span>{{ field.name|first|capfirst }}</span>
+                </div>
+                <span class="stepper-text">{{ field.label_tag }}
+                 <div class="form-group">
+                    {{ field.errors }}
+                    {{ field }}
+                </div>
+                </span>
+
+              </div>
+
+              {% endfor %}
+            </div>
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+            </form>
+          </div>
+        </div>
+    </div>
+
+
+
+    <div class="row" style="margin-left: 17.5rem">
+        <div class="card col-xl-12">
+          <div class="card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                    {% for header in pipeline_headers %}
+                      <th scope="col">{{ header }}</th>
+                    {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in pipeline_data %}
+                    <tr>
+                        {% for entry in row %}
+                        <td>{{ entry }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}
