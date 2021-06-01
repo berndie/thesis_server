@@ -40,4 +40,4 @@ sklearn==0.0
 texttable==1.2.1
 typing==3.6.4
 unicodecsv==0.14.1
-urllib3==1.22
+urllib3==1.26.5
